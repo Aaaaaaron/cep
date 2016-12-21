@@ -1,0 +1,43 @@
+<component name="libraryTable">
+  <library name="Maven: org.wso2.siddhi:siddhi-core:3.0.5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/wso2/siddhi/siddhi-core/3.0.5/siddhi-core-3.0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/wso2/siddhi/siddhi-core/3.0.5/siddhi-core-3.0.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/wso2/siddhi/siddhi-core/3.0.5/siddhi-core-3.0.5-sources.jar!/" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-core/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-core/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/eval-script/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/eval-script/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/event-table/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/event-table/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/geo/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/geo/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/kalman-filter/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/kalman-filter/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/map/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/map/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/math/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/math/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/regex/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/regex/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/reorder/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/reorder/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/string/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/string/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/time/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/time/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/timeseries/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-extensions/timeseries/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-query-api/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-query-api/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-query-compiler/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-query-compiler/src/test/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-samples/performance-samples/src/main/java" />
+      <root url="file://$USER_HOME$/Documents/EGDownloads/Compressed/siddhi-release-3.0.5/modules/siddhi-samples/quick-start-samples/src/main/java" />
+    </SOURCES>
+  </library>
+</component>
