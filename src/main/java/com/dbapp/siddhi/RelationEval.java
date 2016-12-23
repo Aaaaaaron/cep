@@ -34,7 +34,7 @@ public class RelationEval {
                                                                          "and e1.srcUsername == srcUsername " +
                                                                          "and e1.destAddress == destAddress " +
                                                                          "and e1.appProtocol == appProtocol ] "+
-                "within 10 second " +
+                "within 1 second " +
                 "select 'relationEvent' as event, e1.srcAddress, e1.deviceCat, e1.srcUsername, e1.destAddress, e1.appProtocol " +
                 "insert into resultOutputStream;"
                 ;
@@ -65,18 +65,20 @@ public class RelationEval {
         executionPlanRuntime.start();
 
         //Sending events to Siddhi
+        //for ( int i = 0 ; i < 9 ; i++ ) {
+        //    rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,"deviceCat", "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
+        //}
+        //rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" ,"deviceCat" , "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
+        //
+        //Thread.sleep( 1000*20 );
+
         for ( int i = 0 ; i < 9 ; i++ ) {
             rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,"deviceCat", "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
+            //Thread.sleep( 1000*2 );
         }
+        //Thread.sleep( 1000*2 );
         rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" ,"deviceCat" , "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-
-        //Thread.sleep( 1000*70 );
-
-        for ( int i = 0 ; i < 9 ; i++ ) {
-            rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,"deviceCat", "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-        }
-        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" ,"deviceCat" , "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-        Thread.sleep( 500 );
+        //Thread.sleep( 500 );
 
 
         //Shutting down the runtime

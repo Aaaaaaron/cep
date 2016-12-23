@@ -41,7 +41,7 @@ public class SimpleFilterSample2 {
                 "define stream testStream2 ( d string, e string, f string ); " +
                 "" +
                 "@info(name = 'query1') " +
-                "from every( e1 = testStream1<2:> ) -> e2 = testStream2[ e1.a == e2.d ] " +
+                "from every( e1 = testStream1 ) -> e2 = testStream2[ e1.a == e2.d ] " +
                     "within 10 second "+
                 "select e1.a, e1.b, e1.c, e2.d, e2.e, e2.f " +
                 "insert into outputStream ;";
@@ -61,13 +61,11 @@ public class SimpleFilterSample2 {
 
         executionPlanRuntime.start();
         inputHandler1.send( new Object[] { "1" , "2" , "3" } );
-        //inputHandler1.send( new Object[] { "4" , "5" , "6" } );
+        inputHandler1.send( new Object[] { "4" , "5" , "6" } );
 
         inputHandler2.send( new Object[] { "7" , "8" , "9" } );
         inputHandler2.send( new Object[] { "10" , "11" , "12" } );
 
-        //inputHandler1.send( new Object[] { "123" , "111" , "222" } );
-        inputHandler2.send( new Object[] { "123" , "333" , "444" } );
         inputHandler2.send( new Object[] { "1" , "333" , "444" } );
 
         Thread.sleep( 500 );
