@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package com.dbapp.siddhi.sample.util;
+package edu.zjgsu.siddhi.sample.util;
 
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.exception.ExecutionPlanCreationException;

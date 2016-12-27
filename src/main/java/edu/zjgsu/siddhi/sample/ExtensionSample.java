@@ -16,42 +16,41 @@
  * under the License.
  */
 
-package com.dbapp.siddhi.sample;
+package edu.zjgsu.siddhi.sample;
 
+import edu.zjgsu.siddhi.sample.util.CustomFunctionExtension;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
+import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
-import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.core.util.EventPrinter;
 
-public class PartitionSample {
+public class ExtensionSample {
 
     public static void main(String[] args) throws InterruptedException {
 
         // Creating Siddhi Manager
         SiddhiManager siddhiManager = new SiddhiManager();
+        siddhiManager.setExtension("custom:plus", CustomFunctionExtension.class);
 
 
         String executionPlan = "" +
-                "define stream cseEventStream (symbol string, price float,volume int);" +
+                "define stream cseEventStream (symbol string, price long, volume long);" +
                 "" +
-                "partition with (symbol of cseEventStream)" +
-                "begin" +
-                "   @info(name = 'query') " +
-                "   from cseEventStream " +
-                "   select symbol, sum(price) as price, volume " +
-                "   insert into OutStockStream ;" +
-                "end ";
+                "@info(name = 'query1') " +
+                "from cseEventStream " +
+                "select symbol , custom:plus(price,volume) as totalCount " +
+                "insert into Output;";
 
         //Generating runtime
         ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
 
-        //Adding callback to retrieve output events from stream
-        executionPlanRuntime.addCallback("OutStockStream", new StreamCallback() {
+        //Adding callback to retrieve output events from query
+        executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
-            public void receive(Event[] events) {
-                EventPrinter.print(events);
+            public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
+                EventPrinter.print(timeStamp, inEvents, removeEvents);
             }
         });
 
@@ -62,16 +61,16 @@ public class PartitionSample {
         executionPlanRuntime.start();
 
         //Sending events to Siddhi
-        inputHandler.send(new Object[]{"IBM", 75f, 100});
-        inputHandler.send(new Object[]{"WSO2", 705f, 100});
-        inputHandler.send(new Object[]{"IBM", 35f, 100});
-        inputHandler.send(new Object[]{"ORACLE", 50.0f, 100});
-        Thread.sleep(1000);
+        inputHandler.send(new Object[]{"IBM", 700l, 100l});
+        inputHandler.send(new Object[]{"WSO2", 605l, 200l});
+        inputHandler.send(new Object[]{"GOOG", 60l, 200l});
+        Thread.sleep(500);
 
         //Shutting down the runtime
         executionPlanRuntime.shutdown();
 
         //Shutting down Siddhi
         siddhiManager.shutdown();
+
     }
 }

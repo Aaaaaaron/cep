@@ -1,4 +1,4 @@
-package com.dbapp.siddhi;
+package edu.zjgsu.siddhi;
 
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;

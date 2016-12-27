@@ -16,9 +16,8 @@
  * under the License.
  */
 
-package com.dbapp.siddhi.sample;
+package edu.zjgsu.siddhi.sample;
 
-import com.dbapp.siddhi.sample.util.CustomFunctionExtension;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
@@ -26,22 +25,19 @@ import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.EventPrinter;
 
-public class ExtensionSample {
-
+public class FunctionSample {
     public static void main(String[] args) throws InterruptedException {
 
         // Creating Siddhi Manager
         SiddhiManager siddhiManager = new SiddhiManager();
-        siddhiManager.setExtension("custom:plus", CustomFunctionExtension.class);
-
 
         String executionPlan = "" +
-                "define stream cseEventStream (symbol string, price long, volume long);" +
+                "define stream cseEventStream (symbol string, price1 float, price2 float, volume long , quantity int);" +
                 "" +
                 "@info(name = 'query1') " +
                 "from cseEventStream " +
-                "select symbol , custom:plus(price,volume) as totalCount " +
-                "insert into Output;";
+                "select symbol, coalesce(price1,price2) as price, quantity " +
+                "insert into outputStream;";
 
         //Generating runtime
         ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
@@ -61,10 +57,10 @@ public class ExtensionSample {
         executionPlanRuntime.start();
 
         //Sending events to Siddhi
-        inputHandler.send(new Object[]{"IBM", 700l, 100l});
-        inputHandler.send(new Object[]{"WSO2", 605l, 200l});
-        inputHandler.send(new Object[]{"GOOG", 60l, 200l});
-        Thread.sleep(500);
+        inputHandler.send(new Object[]{"WSO2", 50f, 60f, 60l, 6});
+        inputHandler.send(new Object[]{"WSO2", 70f, null, 40l, 10});
+        inputHandler.send(new Object[]{"WSO2", null, 44f, 200l, 56});
+        Thread.sleep(100);
 
         //Shutting down the runtime
         executionPlanRuntime.shutdown();

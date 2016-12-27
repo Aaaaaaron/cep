@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package com.dbapp.siddhi.sample;
+package edu.zjgsu.siddhi.sample;
 
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
