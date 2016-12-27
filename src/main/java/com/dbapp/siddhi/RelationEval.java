@@ -15,21 +15,22 @@ public class RelationEval {
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String bruteForceLoginSuccess = "" +
-                "define stream rawStream ( catBehavior string, catOutcome string, srcAddress string, deviceCat string, srcUsername string, catObject string, destAddress string, appProtocol string ); " +
-                //"define stream condition2Stream ( catBehavior string, catOutcome string, srcAddress string, deviceCat string, srcUsername string, catObject string, destAddress string, appProtocol string ); " +
+                "define stream rawStream ( catBehavior string, catOutcome string, srcAddress string, deviceCat string, srcUsername string, catObject string, destAddress string, appProtocol string, testMinCount string , testGroupBy string ); " +
                 "" +
                 "@info(name = 'condition1') " +
-                "from rawStream[ catBehavior == '/Authentication/Verify' and catOutcome == 'FAIL' and not( srcAddress is null ) ]#window.time(10 sec) " +
-                "select srcAddress, deviceCat, srcUsername, destAddress, appProtocol " +//soc join部分要的字段取出来
-                "insert current events into e1_OutputStream;" +
+                "from rawStream[ catBehavior == '/Authentication/Verify' and catOutcome == 'FAIL' and not( srcAddress is null ) ]#window.time(60 sec) " +
+                "select srcAddress, catOutcome, deviceCat, srcUsername, destAddress, appProtocol, testMinCount, distinctcount( testMinCount ) as distinctMinCount, testGroupBy " +
+                "group by testGroupBy " +
+                "having distinctMinCount > 3 " +
+                "insert into e1_OutputStream;" +
                 "" +
                 "@info(name = 'condition2') " +
                 "from rawStream[ catBehavior == '/Authentication/Verify' and catOutcome == 'OK' and not( srcAddress is null ) ]#window.time(10 sec)  " +
-                "select srcAddress, deviceCat, srcUsername, destAddress, appProtocol " +
+                "select srcAddress, catOutcome,  deviceCat, srcUsername, destAddress, appProtocol " +
                 "insert current events into e2_OutputStream;"
                 + "" +
                 "@info(name = 'result') " +
-                "from every ( e1 = e1_OutputStream<9:> ) -> every ( e2 = e2_OutputStream[ e1.srcAddress == srcAddress " +
+                "from every ( e1 = e1_OutputStream[ count(testGroupBy) > 2 ]<6:> ) -> every ( e2 = e2_OutputStream[ e1.srcAddress == srcAddress " +
                                                                          "and e1.deviceCat == deviceCat " +
                                                                          "and e1.srcUsername == srcUsername " +
                                                                          "and e1.destAddress == destAddress " +
@@ -60,26 +61,14 @@ public class RelationEval {
         //} );
 
         InputHandler rawStreamHandler = executionPlanRuntime.getInputHandler( "rawStream" );
-
-        //Starting event processing
         executionPlanRuntime.start();
 
-        //Sending events to Siddhi
-        for ( int i = 0 ; i < 9 ; i++ ) {
-            rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,"deviceCat", "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-        }
-        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" ,"deviceCat" , "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-        //
-        Thread.sleep( 1000*20 );
+        for ( int i = 0 ; i < 9 ; i++ )
+            rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" , "deviceCat" , "srcUsername" , "catObject" , "destAddress" , "appProtocol" , i , i } );
 
-        for ( int i = 0 ; i < 9 ; i++ ) {
-            rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,"deviceCat", "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-            //Thread.sleep( 1000*2 );
-        }
-        //Thread.sleep( 1000*2 );实践指出这个time gap是两个事件之间的时间
-        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" ,"deviceCat" , "srcUsername" , "catObject" , "destAddress" , "appProtocol" } );
-        //Thread.sleep( 500 );
-
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" , "deviceCat" ,
+                "srcUsername" , "catObject" , "destAddress" , "appProtocol" , "testMinCount" + 888 ,
+                "testGroupBy" } );
 
         //Shutting down the runtime
         executionPlanRuntime.shutdown();
