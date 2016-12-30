@@ -9,21 +9,20 @@ import org.wso2.siddhi.core.stream.output.StreamCallback;
 /**
  * Created by AH on 2016/12/21.
  */
-public class RelationEval {
+public class RelationEval6 {
     public static void main ( String[] args ) throws InterruptedException {
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String bruteForceLoginSuccess = "" +
                 "@plan:async " +
-                "define stream rawStream ( catBehavior string, catOutcome string, srcAddress string, deviceCat string, srcUsername string, catObject string, destAddress string, appProtocol string ); " +
+                "define stream rawStream ( catBehavior string, catOutcome string, srcAddress string, deviceCat string, srcUsername string, catObject string, destAddress string, appProtocol string,id string ); " +
                 "" +
                 "@info(name = 'condition1') " +
-                //catObject要有三种 以srcAddress, srcUsername, destAddress, appProtocol分组的事件个数不少于9个
-                "from rawStream[ catBehavior == '/Authentication/Verify' and catOutcome == 'FAIL' and not( srcAddress is null ) ]#window.time(10 sec) " +
-                "select srcAddress, catOutcome, deviceCat, srcUsername, destAddress, appProtocol, distinctcount( catObject ) as distinctMinCount, count() as groupCount " +
+                "from rawStream[ catBehavior == '/Authentication/Verify' and catOutcome == 'FAIL' and not( srcAddress is null ) ]#window.time(30 sec) " +
+                "select srcAddress, catOutcome, deviceCat, srcUsername, destAddress, appProtocol, distinctcount( catObject ) as distinctMinCount, count() as groupCount, sum(1) as sumCount,id " +
                 "group by srcAddress, srcUsername, destAddress, appProtocol " +
-                "having groupCount >= 9 and distinctMinCount >=1 " +
-                "insert into e1_OutputStream;" +
+                //"having groupCount >= 9 and distinctMinCount >=1 " +
+                "output snapshot every 20 sec insert into e1_OutputStream;" +
                 "" +
                 "@info(name = 'condition2') " +
                 "from rawStream[ catBehavior == '/Authentication/Verify' and catOutcome == 'OK' and not( srcAddress is null ) ]#window.timeBatch(10 sec) " +
@@ -53,23 +52,23 @@ public class RelationEval {
             }
         } );
 
-        executionPlanRuntime.addCallback( "e2_OutputStream", new StreamCallback() {
-            @Override
-            public void receive ( Event[] events ) {
-                for ( Event event : events ) {
-                    System.out.println( event.toString() );
-                }
-            }
-        } );
-
-        executionPlanRuntime.addCallback( "resultOutputStream", new StreamCallback() {
-            @Override
-            public void receive ( Event[] events ) {
-                for ( Event event : events ) {
-                    System.out.println( event.toString() );
-                }
-            }
-        }  );
+        //executionPlanRuntime.addCallback( "e2_OutputStream", new StreamCallback() {
+        //    @Override
+        //    public void receive ( Event[] events ) {
+        //        for ( Event event : events ) {
+        //            System.out.println( event.toString() );
+        //        }
+        //    }
+        //} );
+        //
+        //executionPlanRuntime.addCallback( "resultOutputStream", new StreamCallback() {
+        //    @Override
+        //    public void receive ( Event[] events ) {
+        //        for ( Event event : events ) {
+        //            System.out.println( event.toString() );
+        //        }
+        //    }
+        //}  );
 
         //executionPlanRuntime.addCallback( "result", new QueryCallback() {
         //    @Override
@@ -91,14 +90,15 @@ public class RelationEval {
         executionPlanRuntime.start();
         //catBehavior, catOutcome, srcAddress, deviceCat, srcUsername, catObject, destAddress, appProtocol ;group by srcAddress, srcUsername, destAddress, appProtocol
         //第一个group
-        for ( int i = 0 ; i < 9 ; i++ ) {
+        for ( int i = 0 ; i < 13 ; i++ ) {
             rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
-                    "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+                    "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" ,i} );
+            Thread.sleep( 1000*2 );
         }
         //第二个group
-        for ( int i = 0 ; i < 9 ; i++ ) {
+        for ( int i = 0 ; i < 12 ; i++ ) {
             rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "2.2.2.2" ,
-                    "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+                    "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" ,i} );
         }
         Thread.sleep( 1000 );
         rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "OK" , "1.1.1.1" , "deviceCat" ,
