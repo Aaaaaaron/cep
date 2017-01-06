@@ -89,12 +89,38 @@ public class RelationEval6 {
         InputHandler rawStreamHandler = executionPlanRuntime.getInputHandler( "rawStream" );
         executionPlanRuntime.start();
         //catBehavior, catOutcome, srcAddress, deviceCat, srcUsername, catObject, destAddress, appProtocol ;group by srcAddress, srcUsername, destAddress, appProtocol
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        Thread.sleep( 2000 );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        Thread.sleep( 2000 );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        Thread.sleep( 2000 );
+        Thread.sleep( 2000 );
+
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+                "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" } );
+        Thread.sleep( 1000 );
         //第一个group
-        for ( int i = 0 ; i < 13 ; i++ ) {
-            rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
-                    "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" ,i} );
-            Thread.sleep( 1000 );
-        }
+        //for ( int i = 0 ; i < 13 ; i++ ) {
+        //    rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "1.1.1.1" ,
+        //            "deviceCat" , "srcUsername" , "catObject1" , "destAddress" , "appProtocol" ,i} );
+        //    Thread.sleep( 1000 );
+        //}
         //第二个group
         //for ( int i = 0 ; i < 12 ; i++ ) {
         //    rawStreamHandler.send( new Object[] { "/Authentication/Verify" , "FAIL" , "2.2.2.2" ,
